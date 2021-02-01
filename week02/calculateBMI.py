@@ -21,4 +21,4 @@ while True:
         break
 
 # Calculate the BMI (weight / height in m2) rounded to 2 decimal places
-print("Bad News: Your BMI is " + str(round(((weight / height / height) * 10000),2)))
+print("Bad News: Your BMI is " + str(round((weight / (height / 100) ** 2), 2)))
