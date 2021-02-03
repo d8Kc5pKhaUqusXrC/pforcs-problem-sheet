@@ -2,4 +2,4 @@
 
 Week02 - BMI Calculator
 
-Week03 - Bitcoin Price Display
+Week03 - Bitcoin Price Displayer - 3 currencies
