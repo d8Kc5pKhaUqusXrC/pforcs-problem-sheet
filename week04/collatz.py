@@ -19,15 +19,16 @@ while True:
             continue
         break
 
-# Print the number that was just read in
-print(x, end=" ")
-
+# Loop while x is greater than 1, if x = 1 then it will never enter this loop
 while x > 1:
-    # x mod 2 gives a remainder of 0 if even
+    print(x, end=" ")
+    # x mod 2 gives a remainder of 0 if x is even
     if (x % 2) == 0:
         # x is divisible by 2 ergo even, so divide it by two and print
         x = int(x / 2)
     else:
         # x is not even so it must be odd, therefore triple it and add 1
         x = int(x * 3 + 1)
-    print(x, end=" ")
+
+# Print the final number (1) and end
+print(x)
