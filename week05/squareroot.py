@@ -1,5 +1,7 @@
 # squareroot.py
+#
 # Program that estimates the square root of a number using the Newton method
+#
 # Let N be any number then the square root of N can be given by the formula:
 # root = 0.5 * (X + (N / X)) where X is any guess which can be assumed to be N or 1.
 #
