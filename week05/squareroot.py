@@ -13,7 +13,7 @@
 # 4. If the calculated root comes inside the tolerance allowed then break out of the loop.
 # 5. Print the root.
 #
-# Uses code from https://www.geeksforgeeks.org/find-root-of-a-number-using-newtons-method/
+# Uses code from https://www.geeksforgeeks.org/find-root-of-a-number-using-newtons-method/ (the sqrt function)
 #
 # author: Mark Brislane
 # date: 2021/02/17
