@@ -30,3 +30,6 @@ e = data.count("e")
 
 # Print the number
 print(e)
+
+# Close the file
+file.close()
