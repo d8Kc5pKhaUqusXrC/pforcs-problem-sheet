@@ -31,9 +31,12 @@ lines = file.readlines()
 # Close the file
 file.close()
 
-# Create an empty list - second one is for the extra marks section
+# Create an empty list
 list_of_resources = []
-# extra_marks_list = []
+# Create an empty dictionary, used solely for the extra marks section
+extra_marks_dict = {}
+# Init counter
+count = 0
 
 # regex = '(?<=(GET|POST)\s)\S+' <- for some reason, this won't work: "look-behind requires fixed-width pattern"
 # RegEx is "GET " / "POST " until the following space. "GET " / "POST " - the resource can then be accessed by
@@ -46,16 +49,24 @@ for line in lines:
     # Add it to a list
     list_of_resources.append(resource)
 
-    # Extra marks section - to create a dict of the resource
-#    path = re.split('\?', resource)[0]
-#    parameters = re.split('\?', resource)[1]
-#    parameter = re.split('&', parameters)
-#    extra_marks_list.append({"path", path, "parameters", {}})
-#    for i in parameter:
-#        verb = re.split('=', i)[0]
-#        value = re.split('=', i)[1]
-
+    # Extra marks section - to create a dict within a list for each resource
+    # Split the resource on the ? (path & parameters)
+    path = re.split('\?', resource)[0]
+    parameters = re.split('\?', resource)[1]
+    # Split each parameter into it's key / value pair
+    parameter = re.split('&', parameters)
+    extra_marks_param_dict = {}
+    # Loop through each key / value pair and add them to a dictionary
+    for i in parameter:
+        key = re.split('=', i)[0]
+        value = re.split('=', i)[1]
+        extra_marks_param_dict[key] = value
+    # Add the dictionary entry for this resource
+    extra_marks_dict[count] = {'resource': path, 'parameters': extra_marks_param_dict}
+    # Counter is required so each entry in the dict is unique
+    count = count + 1
 
 # Print the list of resources from the access log file, remove the # if you really want to do this!
 # print(list_of_resources)
-
+# Print the dict required for the extra marks section - again remove the #, the result is quite large!
+# print(extra_marks_dict)
