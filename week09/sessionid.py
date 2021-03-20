@@ -61,7 +61,6 @@ df.set_index('time', inplace=True)
 
 # 3. Use regular expressions to extract the session id from the URLs and store them in a different column
 
-# df['sessionid'] = df['request']
 def extract_sessionid(x):
     wibble = re.search('(JSESSIONID=\S+)', x).group()
     id = re.split('=', wibble)[1]
