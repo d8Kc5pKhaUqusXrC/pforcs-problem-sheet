@@ -1,11 +1,10 @@
 # sem02wk05.py
-# A program to analyse data from
+# A program to visualise COVID-19 County by County data in a heatmap
 # Mark Brislane, G00398781
 
 # This program uses data from the Irish Government COVID-19 Public Dataset :-
 # COVID-19 HPSC County Statistics Historic Data
 # https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv
-
 
 import pandas as pd
 import seaborn as sns
@@ -30,7 +29,7 @@ df['TimeStamp'] = df['TimeStamp'].dt.date
 df['PopulationProportionCovidCases'] = df.groupby(['CountyName'])['PopulationProportionCovidCases']\
     .transform(lambda s: s.sub(s.shift().fillna(0)).abs())
 
-# Create a pivot table of the data so we can
+# Create a pivot table of the data so we can create a heatmap from it.
 df_pivoted = df.pivot('CountyName', 'TimeStamp', 'PopulationProportionCovidCases')
 
 # yticklabels = 1 is so all the counties are listed on the Y axis.
