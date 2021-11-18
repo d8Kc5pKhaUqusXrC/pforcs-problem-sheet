@@ -10,15 +10,28 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Import the Data Set
+# Import the Data Set - if unable to use the latest online one due to an error, try the local version.
 # Start to clean the data while importing, i.e. only read required columns &
 # convert TimeStampDate to an actual datetime.
-df = pd.read_csv(
-    'https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv',
-    usecols=[2, 4, 11],
-    parse_dates=['TimeStamp']
-    # nrows=1040  # Read in 40 days (40 x 26) just for testing purposes
-)
+try:
+    df = pd.read_csv(
+        'https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv',
+        usecols=[2, 4, 11],
+        parse_dates=['TimeStamp']
+        # nrows=1040  # Read in 40 days (40 x 26) just for testing purposes
+    )
+except: # Something went wrong accessing the latest version.
+    print("There was an issue accessing the online version of the COVID-19 data, trying a local versions...")
+    try: # Try the local cached version from 18/11 instead
+        df = pd.read_csv(
+            'COVID-19_HPSC_County_Statistics_Historic_Data.csv',
+            usecols=[2, 4, 11],
+            parse_dates=['TimeStamp']
+            # nrows=1040  # Read in 40 days (40 x 26) just for testing purposes
+        )
+    except:
+        print("There was an issue accessing the local version also. Ending program")
+        raise
 
 # Clean the data
 # Convert the TimeStamp to a Date only, all the times are midnight anyway
@@ -33,8 +46,9 @@ df['PopulationProportionCovidCases'] = df.groupby(['CountyName'])['PopulationPro
 df_pivoted = df.pivot('CountyName', 'TimeStamp', 'PopulationProportionCovidCases')
 
 # yticklabels = 1 is so all the counties are listed on the Y axis.
-sns.heatmap(df_pivoted, yticklabels=1)
+ax = sns.heatmap(df_pivoted, yticklabels=1)
 plt.xlabel('Date')
 plt.ylabel('County')
 plt.title('COVID-19 Daily Case Heatmap by County (normalised by population)')
+plt.get_current_fig_manager().window.state('zoomed')  # Open full screen
 plt.show()
