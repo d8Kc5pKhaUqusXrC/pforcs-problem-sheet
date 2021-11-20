@@ -4,7 +4,7 @@
 
 # This program uses data from the Irish Government COVID-19 Public Dataset :-
 # COVID-19 HPSC County Statistics Historic Data
-# https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv
+# https://data.gov.ie/en_GB/dataset/covid-19-hpsc-county-statistics-historic-data?package_type=dataset
 
 import pandas as pd
 import seaborn as sns
