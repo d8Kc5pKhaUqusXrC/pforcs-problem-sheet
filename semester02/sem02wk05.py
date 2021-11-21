@@ -17,17 +17,16 @@ try:
     df = pd.read_csv(
         'https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv',
         usecols=[2, 4, 11],
-        parse_dates=['TimeStamp']
-        # nrows=1040  # Read in 40 days (40 x 26) just for testing purposes
+        # nrows=1040,  # Read in 40 days (40 x 26) just for testing purposes
+        parse_dates=['  TimeStamp']
     )
-except: # Something went wrong accessing the latest version.
+except:  # Something went wrong accessing the latest version.
     print("There was an issue accessing the online version of the COVID-19 data, trying a local versions...")
-    try: # Try the local cached version from 18/11 instead
+    try:  # Try the local cached version from 18/11 instead
         df = pd.read_csv(
             'COVID-19_HPSC_County_Statistics_Historic_Data.csv',
             usecols=[2, 4, 11],
             parse_dates=['TimeStamp']
-            # nrows=1040  # Read in 40 days (40 x 26) just for testing purposes
         )
     except:
         print("There was an issue accessing the local version also. Ending program")
@@ -36,6 +35,10 @@ except: # Something went wrong accessing the latest version.
 # Clean the data
 # Convert the TimeStamp to a Date only, all the times are midnight anyway
 df['TimeStamp'] = df['TimeStamp'].dt.date
+# On some days, rows have duplicates for unknown reasons so remove them
+df.drop_duplicates(inplace=True)
+# Sort by Date ascending, then by County alphabetically - sometimes required depending on the data.
+df.sort_values(by=['TimeStamp', 'CountyName'])
 # PopulationProportionCovidCases is cumulative which makes no sense on a heatmap.
 # Solution found here:
 # https://stackoverflow.com/questions/62194100/how-to-convert-cumulative-data-to-daily-data-for-multiple-indexes-in-python
