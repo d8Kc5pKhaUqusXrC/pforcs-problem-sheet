@@ -18,7 +18,7 @@ try:
         'https://opendata.arcgis.com/datasets/d9be85b30d7748b5b7c09450b8aede63_0.csv',
         usecols=[2, 4, 11],
         # nrows=1040,  # Read in 40 days (40 x 26) just for testing purposes
-        parse_dates=['  TimeStamp']
+        parse_dates=['TimeStamp']
     )
 except:  # Something went wrong accessing the latest version.
     print("There was an issue accessing the online version of the COVID-19 data, trying a local versions...")
@@ -48,10 +48,19 @@ df['PopulationProportionCovidCases'] = df.groupby(['CountyName'])['PopulationPro
 # Create a pivot table of the data so we can create a heatmap from it.
 df_pivoted = df.pivot('CountyName', 'TimeStamp', 'PopulationProportionCovidCases')
 
+# Use seaborn to create a heatmap of covid cases by county
 # yticklabels = 1 is so all the counties are listed on the Y axis.
 ax = sns.heatmap(df_pivoted, yticklabels=1)
 plt.xlabel('Date')
 plt.ylabel('County')
 plt.title('COVID-19 Daily Case Heatmap by County (normalised by population)')
+plt.get_current_fig_manager().window.state('zoomed')  # Open full screen
+plt.show()
+
+# Use seaborn again to create a daily case count graph.
+sns.lineplot(x='TimeStamp', y='PopulationProportionCovidCases', data=df)
+plt.xlabel('Date')
+plt.ylabel('Cases')
+plt.title('COVID-19 Daily Case graph')
 plt.get_current_fig_manager().window.state('zoomed')  # Open full screen
 plt.show()
